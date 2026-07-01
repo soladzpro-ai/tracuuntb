@@ -3,53 +3,73 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hệ Thống Tra Cứu Điểm Thi Chibi</title>
-    
-    <!-- 1. LIÊN KẾT TOÀN BỘ CÁC FILE CSS THƯ MỤC CỦA CẬU -->
+    <title>Tra Cứu Điểm Thi THPT NTB</title>
+    <!-- Font chữ Chibi đáng yêu -->
+    <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="css/components.css">
-    <link rel="stylesheet" href="css/animation.css">
-    <link rel="stylesheet" href="css/responsive.css">
 </head>
 <body>
 
-    <!-- Khung giao diện chính (Cậu có thể đổi class tùy theo css của cậu) -->
-    <div class="search-container">
+    <!-- Hiệu ứng hạt bay ngẫu nhiên nền -->
+    <canvas id="particle-canvas"></canvas>
+
+    <div class="chibi-container">
         
-        <!-- Khu vực Logo & Tiêu đề -->
-        <div class="header-logo">
-            <img src="assets/logo/logo.png" alt="Logo Chibi" class="main-logo" onerror="this.style.display='none'">
-            <h2>🌸 TRA CỨU ĐIỂM THI 🌸</h2>
-            <p class="subtitle">Nhập số báo danh để xem kết quả điểm của cậu nhé</p>
+        <!-- HEADER UI: Gom logo chuột nhỏ lên góc trên bên trái của biểu ngữ -->
+        <div class="chibi-header">
+            <img src="assets/logo/logo.png" alt="Chibi Mouse" class="chibi-logo-left">
+            <div class="chibi-banner">
+                🌸 TRA ĐIỂM THI THPT NTB 🌸
+            </div>
         </div>
 
-        <!-- Khung nhập liệu Form -->
-        <div class="search-form">
-            <!-- Ô nhập Số báo danh bắt buộc phải có id="txtSoBaoDanh" -->
-            <input type="text" id="txtSoBaoDanh" placeholder="Nhập số báo danh dự thi..." autocomplete="off">
-            
-            <!-- Nút bấm bắt buộc gọi hàm traCuuDiem() khi click -->
-            <button type="button" class="btn-search" onclick="traCuuDiem()">Tra Điểm Ngay</button>
+        <!-- Khung Tìm Kiếm -->
+        <div class="search-box">
+            <p class="search-title">✨ Nhập số báo danh để xem kết quả điểm của cậu nhé! ✨</p>
+            <div class="search-form">
+                <input type="text" id="sbdInput" placeholder="Ví dụ: 550123" maxlength="10">
+                <button id="btnTraDiem">Tra Điểm Ngay 🐾</button>
+            </div>
         </div>
 
-        <!-- Vùng hiển thị kết quả bắt buộc có id="ketQuaTraCuu" -->
-        <div id="ketQuaTraCuu"></div>
+        <!-- Thông báo Trạng thái Server (Ngủ đông / Đang tải) -->
+        <div id="statusMessage" class="status-box warning-box" style="display: none;">
+            ⏰ <span id="statusText">Chờ máy chủ 'bận tỉnh giấc' nhé! Thường 20-30 giây thui, cậu nhớ bấm lại nhé! 🌸</span>
+        </div>
 
+        <!-- Bảng Kết Quả Điểm Chibi -->
+        <div id="resultContainer" class="result-card" style="display: none;">
+            <h3>🎉 Kết Quả Của Cậu Đây Nè! 🎉</h3>
+            <div class="table-responsive">
+                <table class="chibi-table">
+                    <thead>
+                        <tr>
+                            <th>Số Báo Danh</th>
+                            <th>Tên Học Sinh</th>
+                            <th>Toán</th>
+                            <th>Văn</th>
+                            <th>Anh</th>
+                            <th>TĐ</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td id="resSBD" class="highlight-cell">--</td>
+                            <td id="resName">--</td>
+                            <td id="resToan">--</td>
+                            <td id="resVan">--</td>
+                            <td id="resAnh">--</td>
+                            <td id="resTD" class="highlight-total">--</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
 
-    <!-- 2. NHÚNG CÁC FILE HIỆU ỨNG NỀN TẢNG (CHẠY TRƯỚC) -->
-    <script src="js/particles.js"></script>
-    <script src="js/confetti.js"></script>
-    <script src="js/animation.js"></script>
-    <script src="js/loading.js"></script>
-    <script src="js/notification.js"></script>
-    <script src="js/app.js"></script>
-
-    <!-- 3. NHÚNG FILE KẾT NỐI API (ĐỨNG TRƯỚC FILE SEARCH ĐỂ CẤP HÀM FETCH) -->
+    <!-- Nhúng các file script logic xử lý -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     <script src="js/api.js"></script>
-
-    <!-- 4. NHÚNG FILE XỬ LÝ SỰ KIỆN NÚT BẤM (ĐỨNG CUỐI CÙNG) -->
-    <script src="js/search.js"></script>
-
+    <script src="js/script.js"></script>
 </body>
 </html>

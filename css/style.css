@@ -1,71 +1,244 @@
-/* Quản lý các biến màu sắc và layout tổng quát toàn bộ trang chủ */
-:root {
-    --bg-main: linear-gradient(135deg, #fff3f6 0%, #edf9ff 100%);
-    --pink-pastel: #ff9ebb;
-    --pink-hover: #ff7fa2;
-    --pink-border: #ffd1df;
-    --text-color: #5d4f53;
-    --outline-color: #ffb3cb;
-}
+/* ==========================================================================
+   GIAO DIỆN SIÊU CHIBI TOÀN DIỆN - THPT NTB (FULL CSS)
+   ========================================================================== */
 
-* { 
-    box-sizing: border-box; 
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Comfortaa', cursive, sans-serif; /* Font tròn trịa đáng yêu */
 }
 
 body {
-    margin: 0;
-    padding: 15px;
+    background: linear-gradient(135deg, #FFF5F5 0%, #E8F0FE 100%);
     min-height: 100vh;
-    background: var(--bg-main);
-    background-image: url('../assets/backgrounds/bg.png');
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-position: center;
-    font-family: 'Comfortaa', cursive, sans-serif;
-    color: var(--text-color);
     display: flex;
     justify-content: center;
     align-items: center;
-    position: relative;
+    padding: 20px;
     overflow-x: hidden;
-}
-
-/* Khung viền lớn bọc ngoài của trang web */
-.chibi-web-wrapper {
-    background: #ffffff;
-    max-width: 800px;
-    width: 100%;
-    padding: 30px;
-    border-radius: 35px;
-    box-shadow: 0 15px 35px rgba(255, 158, 187, 0.15);
-    border: 4px solid #ffffff;
-    outline: 5px dashed var(--outline-color);
-    outline-offset: -12px;
     position: relative;
-    z-index: 10;
 }
 
-.chibi-divider {
-    border: none;
-    border-top: 3px dashed #f2dee4;
-    margin: 25px 0;
-}
-
-/* Các lớp bổ trợ trạng thái hiển thị */
-.hidden { 
-    display: none !important; 
-}
-
-/* Đảm bảo canvas chạy hiệu ứng nằm trọn dưới nền không đè lên phần tương tác */
-#particles-canvas, #confetti-canvas {
+/* Canvas hình hạt bay phía nền */
+#particle-canvas {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    pointer-events: none;
     z-index: 1;
+    pointer-events: none;
 }
-#confetti-canvas {
-    z-index: 999;
+
+/* Khung bọc toàn bộ nội dung */
+.chibi-container {
+    background: rgba(255, 255, 255, 0.88);
+    backdrop-filter: blur(10px);
+    border: 4px solid #FFD1D1;
+    border-radius: 30px;
+    width: 100%;
+    max-width: 700px;
+    padding: 30px;
+    box-shadow: 0 15px 30px rgba(255, 182, 193, 0.3);
+    text-align: center;
+    z-index: 2;
+    animation: floating 4s ease-in-out infinite;
+}
+
+/* Hiệu ứng bồng bềnh nhẹ nhàng */
+@keyframes floating {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-8px); }
+}
+
+/* --- PHẦN UI HEADER (LOGO CHUỘT GÓC TRÁI + BANNER) --- */
+.chibi-header {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    margin-bottom: 25px;
+    padding-top: 10px;
+}
+
+/* Chuột nhỏ kute nằm gọn gàng ở góc trên bên trái UI */
+.chibi-logo-left {
+    position: absolute;
+    left: 0;
+    top: -5px;
+    width: 55px;         
+    height: 55px;
+    object-fit: contain;
+    filter: drop-shadow(0 3px 6px rgba(0,0,0,0.06));
+    animation: mouseWiggle 3s ease-in-out infinite;
+}
+
+/* Hiệu ứng chuột ngoáy đầu Chibi */
+@keyframes mouseWiggle {
+    0%, 100% { transform: rotate(0deg) scale(1); }
+    50% { transform: rotate(10deg) scale(1.05); }
+}
+
+/* Biểu ngữ Tiêu đề dịch sang phải nhường chỗ cho chuột */
+.chibi-banner {
+    background: linear-gradient(90deg, #FFB6C1, #FFD1D1);
+    color: #FFF;
+    font-size: 1.35rem;
+    font-weight: bold;
+    padding: 12px 30px;
+    border-radius: 50px;
+    border: 3px solid #FFF;
+    box-shadow: 0 5px 15px rgba(255, 182, 193, 0.4);
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+    margin-left: 50px; 
+}
+
+/* --- KHUNG TÌM KIẾM --- */
+.search-box {
+    background: #FFF;
+    border: 2px dashed #BBA7FF;
+    border-radius: 20px;
+    padding: 25px 20px;
+    margin-bottom: 20px;
+}
+
+.search-title {
+    color: #6C5CE7;
+    font-size: 0.95rem;
+    font-weight: bold;
+    margin-bottom: 18px;
+}
+
+.search-form {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+/* Ô nhập SBD kute tròn trịa */
+#sbdInput {
+    padding: 12px 20px;
+    border: 3px solid #FFD1D1;
+    border-radius: 50px;
+    outline: none;
+    font-size: 1rem;
+    text-align: center;
+    width: 180px;
+    color: #555;
+    transition: all 0.3s;
+    background-color: #FFF9F9;
+}
+
+#sbdInput:focus {
+    border-color: #FFB6C1;
+    box-shadow: 0 0 10px rgba(255, 182, 193, 0.5);
+    background-color: #FFF;
+}
+
+/* Nút bấm siêu kute */
+#btnTraDiem {
+    background: linear-gradient(135deg, #A8C8F9 0%, #82AFFF 100%);
+    color: white;
+    border: 3px solid #FFF;
+    padding: 12px 25px;
+    font-size: 1rem;
+    font-weight: bold;
+    border-radius: 50px;
+    cursor: pointer;
+    box-shadow: 0 5px 10px rgba(130, 175, 255, 0.3);
+    transition: all 0.2s;
+}
+
+#btnTraDiem:hover {
+    transform: scale(1.05);
+    box-shadow: 0 7px 15px rgba(130, 175, 255, 0.5);
+}
+
+#btnTraDiem:active {
+    transform: scale(0.98);
+}
+
+/* --- HỘP THÔNG BÁO TRẠNG THÁI --- */
+.status-box {
+    padding: 12px 18px;
+    border-radius: 15px;
+    font-size: 0.85rem;
+    margin: 15px 0;
+    line-height: 1.4;
+    font-weight: bold;
+}
+
+.warning-box {
+    background-color: #FFF3CD;
+    border: 2px solid #FFEBAA;
+    color: #856404;
+}
+
+/* --- KHUNG KẾT QUẢ ĐIỂM --- */
+.result-card {
+    background: #FFF;
+    border: 3px solid #C6E2FF;
+    border-radius: 20px;
+    padding: 20px;
+    margin-top: 25px;
+    box-shadow: 0 8px 16px rgba(198, 226, 255, 0.3);
+    animation: zoomIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+@keyframes zoomIn {
+    from { opacity: 0; transform: scale(0.8); }
+    to { opacity: 1; transform: scale(1); }
+}
+
+.result-card h3 {
+    color: #4A90E2;
+    font-size: 1.1rem;
+    margin-bottom: 15px;
+}
+
+/* Bảng Điểm Thi Chibi sắc nét không vỡ form */
+.table-responsive {
+    overflow-x: auto;
+    width: 100%;
+}
+
+.chibi-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 6px; /* Khoảng cách tạo ô bo góc kute */
+    min-width: 500px; /* Chống méo bảng trên điện thoại */
+}
+
+.chibi-table th {
+    background-color: #D6E6FF;
+    color: #4A76A8;
+    padding: 12px 10px;
+    font-size: 0.85rem;
+    border-radius: 12px;
+    white-space: nowrap;
+}
+
+.chibi-table td {
+    background-color: #F2F7FF;
+    color: #333;
+    padding: 12px 8px;
+    font-size: 0.9rem;
+    font-weight: bold;
+    border-radius: 12px;
+}
+
+/* Ô SBD và Điểm tổng nổi bật */
+.chibi-table td.highlight-cell {
+    background-color: #FFE3E3;
+    color: #D9534F;
+}
+
+.chibi-table td.highlight-total {
+    background-color: #E2F0D9;
+    color: #385723;
+    font-size: 1rem;
 }
