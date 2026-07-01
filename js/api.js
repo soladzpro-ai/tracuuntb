@@ -1,18 +1,14 @@
 /* ==========================================================================
-   FILE XỬ LÝ API TRA CỨU ĐIỂM - PHƯƠNG ÁN 2 (FULL FILE)
+   FILE XỬ LÝ API TRA CỨU ĐIỂM - PHƯƠNG ÁN 3 (FULL FILE)
    ========================================================================== */
 
 const API_BASE_URL = "https://server-xe33.onrender.com";
 
-// Gọi API bằng phương thức POST gửi dữ liệu JSON ngầm sang /api/search
+// Gọi API bằng phương thức GET truyền dữ liệu lên url /api/search
 async function fetchStudentScore(sbd) {
     try {
-        const response = await fetch(`${API_BASE_URL}/api/search`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ sbd: sbd })
+        const response = await fetch(`${API_BASE_URL}/api/search?sbd=${sbd}`, {
+            method: 'GET'
         });
 
         if (!response.ok) {
@@ -20,7 +16,7 @@ async function fetchStudentScore(sbd) {
         }
         return await response.json();
     } catch (error) {
-        console.error("❌ Lỗi API Phương án 2:", error);
+        console.error("❌ Lỗi API Phương án 3:", error);
         throw error;
     }
 }
