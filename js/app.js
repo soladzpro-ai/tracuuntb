@@ -1,10 +1,11 @@
-// js/app.js
+// File khởi tạo chính, kiểm tra trạng thái nạp của toàn bộ các file thành phần
 document.addEventListener('DOMContentLoaded', () => {
-    // Kích hoạt tầng bắt sự kiện click nút bấm và gõ Enter nhập số báo danh
-    if (window.ChibiSearch) {
-        window.ChibiSearch.init();
-    }
+    console.log("🚀 Hệ thống Tra Cứu Điểm Thi THPT NTB đã sẵn sàng!");
     
-    // Log nhẹ một cái thông báo hệ thống đã chạy mượt mà ổn định
-    console.log('%c🌸 Tra cứu điểm thi Chibi Tây Ninh v1.0 đã kích hoạt thành công!', 'color: #e6678e; font-weight: bold; font-size: 13px;');
+    if (!window.fetchStudentScore) {
+        console.error("Lỗi: Khối api.js chưa được nạp chính xác.");
+    }
+    if (!window.triggerCardAnimation) {
+        console.warn("Lưu ý: Khối animation.js chưa được định nghĩa.");
+    }
 });

@@ -1,74 +1,51 @@
-/* ==========================================================================
-   FILE XỬ LÝ API TRA CỨU ĐIỂM - PHƯƠNG ÁN 3 (FULL FILE)
-   ========================================================================== */
-
-const API_BASE_URL = "https://server-xe33.onrender.com";
-
-// Gọi API bằng phương thức GET truyền dữ liệu lên url /api/search
+// Hàm tìm kiếm thông minh, hỗ trợ cả chạy offline (file:///) lẫn online
 async function fetchStudentScore(sbd) {
-    try {
-        const response = await fetch(`${API_BASE_URL}/api/search?sbd=${sbd}`, {
-            method: 'GET'
-        });
+    const targetSbd = String(sbd).trim().toLowerCase();
+    let bulkData = null;
 
-        if (!response.ok) {
-            throw new Error(`Lỗi server hoặc không tìm thấy SBD: ${response.status}`);
-        }
-        return await response.json();
-    } catch (error) {
-        console.error("❌ Lỗi API Phương án 3:", error);
-        throw error;
+    // Hướng 1: Lấy từ mảng RAM toàn cục do data_local.js định nghĩa
+    if (window._localStudentData && Array.isArray(window._localStudentData)) {
+        bulkData = window._localStudentData;
     }
+
+    // Hướng 2: Dự phòng nếu file:// / chặn script, đọc trực tiếp file dưới dạng text thô
+    if (!bulkData) {
+        try {
+            const response = await fetch('js/data_local.js');
+            if (response.ok) {
+                const rawText = await response.text();
+                const startIdx = rawText.indexOf('[');
+                const endIdx = rawText.lastIndexOf(']');
+                if (startIdx !== -1 && endIdx !== -1) {
+                    bulkData = JSON.parse(rawText.substring(startIdx, endIdx + 1));
+                }
+            }
+        } catch (e) {
+            console.log("Không thể fetch trực tiếp js/data_local.js text");
+        }
+    }
+
+    // Hướng 3: Thử fetch data.json (khi chạy qua Live Server hoặc up mạng)
+    if (!bulkData) {
+        try {
+            const response = await fetch('data.json');
+            if (response.ok) bulkData = await response.json();
+        } catch (e) {}
+    }
+
+    // Tiến hành dò tìm trong mảng dữ liệu cấu trúc lồng hocSinh
+    if (bulkData && Array.isArray(bulkData)) {
+        return bulkData.find(item => {
+            if (!item) return false;
+            if (item.hocSinh && item.hocSinh.SoBaoDanhDuThi) {
+                return String(item.hocSinh.SoBaoDanhDuThi).trim().toLowerCase() === targetSbd;
+            }
+            const backupSbd = item.SoBaoDanhDuThi || (item.hocSinh && (item.hocSinh.sbd || item.hocSinh.SBD));
+            return String(backupSbd).trim().toLowerCase() === targetSbd;
+        });
+    }
+    throw new Error("Không tìm thấy SBD");
 }
 
-// Khung xử lý sự kiện hiển thị lên giao diện Chibi
-document.addEventListener('DOMContentLoaded', () => {
-    const btn = document.getElementById('btnTraDiem') || document.querySelector('.btnSearch');
-    const input = document.getElementById('sbdInput') || document.querySelector('.studentId');
-    const statusBox = document.getElementById('statusMessage');
-    const statusText = document.getElementById('statusText');
-    const resultBox = document.getElementById('resultContainer');
-
-    if (btn && input) {
-        btn.addEventListener('click', async () => {
-            const sbdValue = input.value.trim();
-            if (!sbdValue) {
-                alert("Cậu ơi, nhập Số Báo Danh vào đã nhé! 🐾");
-                return;
-            }
-
-            if (statusBox && statusText) {
-                statusText.innerText = "Đang xin dữ liệu từ máy chủ, cậu đợi xíu nha... ✨";
-                statusBox.style.display = 'block';
-            }
-            if (resultBox) resultBox.style.display = 'none';
-
-            try {
-                const student = await fetchStudentScore(sbdValue);
-                if (statusBox) statusBox.style.display = 'none';
-
-                if (student) {
-                    document.getElementById('resSBD').innerText = student.sbd || student.SBD || sbdValue;
-                    document.getElementById('resName').innerText = student.hoTen || student.name || student.Ten || "Học Sinh";
-                    document.getElementById('resToan').innerText = student.toan || student.Toan || "0";
-                    document.getElementById('resVan').innerText = student.van || student.Van || "0";
-                    document.getElementById('resAnh').innerText = student.anh || student.Anh || "0";
-                    document.getElementById('resTD').innerText = student.tongDiem || student.td || student.TĐ || "0";
-
-                    if (resultBox) resultBox.style.display = 'block';
-
-                    if (typeof confetti === 'function') {
-                        confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } });
-                    }
-                }
-            } catch (err) {
-                if (statusText) {
-                    statusText.innerText = "⏰ Máy chủ phản hồi lỗi hoặc SBD chưa đúng. Cậu đợi xíu bấm lại nha! 🌸";
-                }
-                console.error(err);
-            }
-        });
-    }
-});
-
+// Xuất hàm ra phạm vi toàn cục để file khác gọi được
 window.fetchStudentScore = fetchStudentScore;

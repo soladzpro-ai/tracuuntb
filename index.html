@@ -3,82 +3,83 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tra Cứu Điểm Thi THPT NTB</title>
-    <!-- Font chữ Chibi đáng yêu -->
-    <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@400;700&display=swap" rel="stylesheet">
+    <title>Tra Cứu Điểm Thi vào NTB 🌸</title>
     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="css/animation.css">
+    <link rel="stylesheet" href="css/responsive.css">
 </head>
 <body>
 
-    <!-- Hiệu ứng hạt bay ngẫu nhiên nền -->
-    <canvas id="particle-canvas"></canvas>
-
-    <div class="chibi-container">
-        
-        <!-- HEADER UI: Gom logo chuột nhỏ lên góc trên bên trái của biểu ngữ -->
-        <div class="chibi-header">
-            <img src="assets/logo/logo.png" alt="Chibi Mouse" class="chibi-logo-left">
-            <div class="chibi-banner">
-                🌸 TRA ĐIỂM THI THPT NTB 🌸
+    <div class="main-container">
+        <div class="card-box text-center init-animation">
+            <h2 class="card-title">Tra cứu bằng số báo danh</h2>
+            <div class="input-group">
+                <span class="search-icon">🔍</span>
+                <input type="text" id="sbdInput" placeholder="Nhập số báo danh để tra cứu...">
             </div>
+            <button id="btnTraDiem">TRA CỨU</button>
         </div>
 
-        <!-- Khung Tìm Kiếm -->
-        <div class="search-box">
-            <p class="search-title">✨ Nhập số báo danh để xem kết quả điểm của cậu nhé! ✨</p>
-            <div class="search-form">
-                <input type="text" id="sbdInput" placeholder="Ví dụ: 550123" maxlength="10">
-                <!-- Thêm đầy đủ ID và Class phụ để dù file JS của cậu viết kiểu gì cũng nhận được sự kiện click -->
-                <button id="btnTraDiem" class="btnSearch btn-search">Tra Điểm Ngay 🐾</button>
-            </div>
+        <div id="statusMessage" class="status-box" style="display: none;">
+            <p id="statusText">✨ Đang truy xuất bảng điểm, đợi tớ xíu nha...</p>
         </div>
 
-        <!-- Thông báo Trạng thái Server (Ngủ đông / Đang tải) -->
-        <div id="statusMessage" class="status-box warning-box" style="display: none;">
-            ⏰ <span id="statusText">Chờ máy chủ 'bận tỉnh giấc' nhé! Thường 20-30 giây thui, cậu nhớ bấm lại nhé! 🌸</span>
-        </div>
-
-        <!-- Bảng Kết Quả Điểm Chibi -->
-        <div id="resultContainer" class="result-card" style="display: none;">
-            <h3>🎉 Kết Quả Của Cậu Đây Nè! 🎉</h3>
-            <div class="table-responsive">
-                <table class="chibi-table">
-                    <thead>
-                        <tr>
-                            <th>Số Báo Danh</th>
-                            <th>Tên Học Sinh</th>
-                            <th>Toán</th>
-                            <th>Văn</th>
-                            <th>Anh</th>
-                            <th>TĐ</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td id="resSBD" class="highlight-cell">--</td>
-                            <td id="resName">--</td>
-                            <td id="resToan">--</td>
-                            <td id="resVan">--</td>
-                            <td id="resAnh">--</td>
-                            <td id="resTD" class="highlight-total">--</td>
-                        </tr>
-                    </tbody>
-                </table>
+        <div id="resultContainer" style="display: none;">
+            
+            <div class="card-box card-info">
+                <h3 class="section-heading"><span class="blue-line"></span>Thông tin thí sinh</h3>
+                <div class="info-grid">
+                    <div class="info-block">
+                        <span class="info-label">Họ và tên</span>
+                        <span class="info-value" id="resName">-</span>
+                    </div>
+                    <div class="info-block">
+                        <span class="info-label">Số báo danh</span>
+                        <span class="info-value" id="resSBD">-</span>
+                    </div>
+                    <div class="info-block">
+                        <span class="info-label">Phòng thi</span>
+                        <span class="info-value" id="resPhongThi">-</span>
+                    </div>
+                </div>
             </div>
+
+            <div class="card-box card-result">
+                <h3 class="section-heading"><span class="blue-line"></span>Kết quả</h3>
+                <div class="table-responsive">
+                    <table class="result-table">
+                        <thead>
+                            <tr>
+                                <th>Môn</th>
+                                <th>Thời gian thi</th>
+                                <th>Địa điểm thi</th>
+                                <th>Bắt đầu làm bài</th>
+                                <th>Điểm</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tableBodyScores">
+                            </tbody>
+                    </table>
+                </div>
+            </div>
+
         </div>
     </div>
 
-    <!-- Thư viện pháo hoa từ mạng -->
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     
-    <!-- NHÚNG ĐÚNG VÀ ĐỦ 100% CẤU TRÚC FILE JS THỰC TẾ CỦA CẬU -->
+    <script src="js/data_local.js"></script>
+    
     <script src="js/api.js"></script>
-    <script src="js/particles.js"></script>
+    
     <script src="js/animation.js"></script>
-    <script src="js/loading.js"></script>
-    <script src="js/notification.js"></script>
+    
+    <script src="js/particles.js"></script>
+    
     <script src="js/search.js"></script>
-    <script src="js/confetti.js"></script>
+    
     <script src="js/app.js"></script>
+
 </body>
 </html>

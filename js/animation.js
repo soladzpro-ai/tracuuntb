@@ -1,21 +1,14 @@
-// js/animation.js
-document.addEventListener("DOMContentLoaded", () => {
-    const animatedButtons = document.querySelectorAll(".btn-cute-animation");
+// Hàm tạo hiệu ứng xuất hiện bồng bềnh cho khối kết quả khi hiển thị
+function triggerCardAnimation(element) {
+    if (!element) return;
+    element.style.opacity = '0';
+    element.style.transform = 'translateY(20px)';
+    element.style.transition = 'all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275)';
+    
+    setTimeout(() => {
+        element.style.opacity = '1';
+        element.style.transform = 'translateY(0)';
+    }, 50);
+}
 
-    animatedButtons.forEach(button => {
-        // Tạo âm thanh hoặc hiệu ứng thu nhỏ nhẹ khi bấm xuống bằng tay
-        button.addEventListener("mousedown", () => {
-            button.style.transform = "scale(0.95) translateY(2px)";
-        });
-
-        // Trả lại trạng thái ban đầu khi thả chuột ra
-        button.addEventListener("mouseup", () => {
-            button.style.transform = "";
-        });
-
-        // Đề phòng trường hợp di chuột ra ngoài khi đang đè chuột
-        button.addEventListener("mouseleave", () => {
-            button.style.transform = "";
-        });
-    });
-});
+window.triggerCardAnimation = triggerCardAnimation;

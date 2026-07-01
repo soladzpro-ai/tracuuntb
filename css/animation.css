@@ -1,30 +1,7 @@
-/* Tập hợp các Keyframes hoạt họa bồng bềnh, dập dềnh chibi và hiệu ứng màu sắc */
-
-/* 1. Hiệu ứng bồng bềnh nhẹ nhàng của logo thương hiệu */
-@keyframes floaty {
-    0%, 100% { transform: translateY(0) rotate(0deg); }
-    50% { transform: translateY(-6px) rotate(4deg); }
+.init-animation {
+    animation: fadeInUp 0.6s ease both;
 }
-
-/* 2. Hiệu ứng chuyển đổi dải màu Gradient RGB 16 triệu màu liên tục, chậm rãi */
-@keyframes rgbGlow {
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
+@keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
 }
-
-/* 3. Hiệu ứng xoay tròn mượt mà cho icon Loading */
-@keyframes spinSmooth {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-}
-
-/* 4. Kết quả nảy từ dưới lên khi xuất hiện */
-@keyframes popUp {
-    0% { transform: scale(0.95); opacity: 0; }
-    100% { transform: scale(1); opacity: 1; }
-}
-
-/* Áp dụng các hiệu ứng mặc định vào thẻ class */
-.brand-img { animation: floaty 3s ease-in-out infinite; }
-.result-area { animation: popUp 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
