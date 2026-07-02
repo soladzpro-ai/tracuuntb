@@ -1,3 +1,16 @@
+/* Thiết lập phông chữ Calibri cho toàn bộ trang web */
+body {
+    font-family: 'Calibri', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #fcfaff;
+    margin: 0;
+    padding: 0;
+}
+
+/* Đảm bảo các thuộc tính nhập liệu cũng ăn theo phông chữ Calibri */
+input, button, select, textarea {
+    font-family: 'Calibri', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
 /* Khuôn khổ Card giống hệt thiết kế đập hộp */
 .card-box {
     background: #ffffff;
@@ -6,19 +19,25 @@
     box-shadow: 0 8px 24px rgba(142, 120, 150, 0.06);
     border: 1px solid rgba(255, 255, 255, 0.8);
 }
-.text-center { text-align: center; }
+
+.text-center { 
+    text-align: center; 
+}
+
 .card-title {
     color: #4a3e56;
     font-size: 1.15rem;
     font-weight: 600;
     margin-bottom: 20px;
 }
+
 .input-group {
     position: relative;
     width: 100%;
     max-width: 580px;
     margin: 0 auto 20px auto;
 }
+
 .search-icon {
     position: absolute;
     left: 16px;
@@ -26,6 +45,7 @@
     transform: translateY(-50%);
     color: #bfaec6;
 }
+
 .input-group input {
     width: 100%;
     padding: 14px 16px 14px 48px;
@@ -35,7 +55,9 @@
     color: #4a3e56;
     outline: none;
     background-color: #faf8fc;
+    box-sizing: border-box; /* Đảm bảo không bị tràn viền */
 }
+
 button {
     width: 100%;
     max-width: 580px;
@@ -49,6 +71,7 @@ button {
     cursor: pointer;
     box-shadow: 0 4px 12px rgba(214, 116, 185, 0.2);
 }
+
 .section-heading {
     font-size: 1.1rem;
     color: #2c2533;
@@ -57,6 +80,7 @@ button {
     align-items: center;
     margin-bottom: 20px;
 }
+
 .blue-line {
     display: inline-block;
     width: 4px;
@@ -65,11 +89,14 @@ button {
     margin-right: 10px;
     border-radius: 2px;
 }
+
+/* Grid thông minh tự tính toán xếp cột hoặc nhảy hàng cân đối tùy màn hình */
 .info-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
     gap: 16px;
 }
+
 .info-block {
     background-color: #f7f5fa;
     border: 1px solid #ede9f2;
@@ -79,10 +106,29 @@ button {
     flex-direction: column;
     gap: 4px;
 }
-.info-label { font-size: 0.8rem; color: #8a7e93; }
-.info-value { font-size: 1.05rem; font-weight: 700; color: #2c2533; }
-.table-responsive { width: 100%; overflow-x: auto; }
-.result-table { width: 100%; border-collapse: collapse; text-align: left; }
+
+.info-label { 
+    font-size: 0.8rem; 
+    color: #8a7e93; 
+}
+
+.info-value { 
+    font-size: 1.05rem; 
+    font-weight: 700; 
+    color: #2c2533; 
+}
+
+.table-responsive { 
+    width: 100%; 
+    overflow-x: auto; 
+}
+
+.result-table { 
+    width: 100%; 
+    border-collapse: collapse; 
+    text-align: left; 
+}
+
 .result-table th {
     background-color: #f4f0f7;
     color: #63566e;
@@ -91,10 +137,29 @@ button {
     font-size: 0.9rem;
     border-bottom: 1px solid #e6dfeb;
 }
-.result-table td { padding: 16px; font-size: 0.95rem; color: #4a3f54; border-bottom: 1px solid #f0edf5; }
-.score-text { font-weight: 700; color: #007bff; }
-.font-bold { font-weight: 600; }
+
+.result-table td { 
+    padding: 16px; 
+    font-size: 0.95rem; 
+    color: #4a3f54; 
+    border-bottom: 1px solid #f0edf5; 
+}
+
+.score-text { 
+    font-weight: 700; 
+    color: #007bff; 
+}
+
+.font-bold { 
+    font-weight: 600; 
+}
+
 .status-box {
-    background: #ffffff; border-left: 4px solid #d674b9;
-    padding: 14px; border-radius: 8px; text-align: center; color: #d674b9; font-weight: 500;
+    background: #ffffff; 
+    border-left: 4px solid #d674b9;
+    padding: 14px; 
+    border-radius: 8px; 
+    text-align: center; 
+    color: #d674b9; 
+    font-weight: 500;
 }

@@ -3,32 +3,42 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tra Cứu Điểm Thi vào NTB 🌸</title>
-    <link rel="stylesheet" href="css/style.css">
+    <title>Tra Cứu Điểm Vào THPT Nguyễn Thái Bình</title>
+    <!-- Nhúng thư viện tạo pháo hoa gốc từ CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    
+    <!-- Nhúng các file CSS hệ thống -->
     <link rel="stylesheet" href="css/components.css">
     <link rel="stylesheet" href="css/animation.css">
-    <link rel="stylesheet" href="css/responsive.css">
 </head>
 <body>
 
-    <div class="main-container">
-        <div class="card-box text-center init-animation">
-            <h2 class="card-title">Tra cứu bằng số báo danh</h2>
+    <div style="max-width: 1200px; margin: 40px auto; padding: 0 20px;">
+        <!-- KHỐI 1: Ô NHẬP TRA CỨU -->
+        <div class="card-box init-animation">
+            <h1 class="card-title text-center">TRA CỨU ĐIỂM THI TUYỂN SINH VÀO LỚP 10</h1>
             <div class="input-group">
                 <span class="search-icon">🔍</span>
-                <input type="text" id="sbdInput" placeholder="Nhập số báo danh để tra cứu...">
+                <input type="text" id="sbdInput" placeholder="Nhập Số Báo Danh của cậu tại đây...">
             </div>
-            <button id="btnTraDiem">TRA CỨU</button>
+            <div class="text-center">
+                <button id="btnTraDiem">Tra cứu kết quả 🌸</button>
+            </div>
         </div>
 
-        <div id="statusMessage" class="status-box" style="display: none;">
+        <!-- KHỐI TRẠNG THÁI (LOADING / LỖI) -->
+        <div id="statusMessage" class="status-box init-animation" style="display: none; margin-top: 20px;">
             <p id="statusText">✨ Đang truy xuất bảng điểm, đợi tớ xíu nha...</p>
         </div>
 
-        <div id="resultContainer" style="display: none;">
+        <!-- KHỐI HIỂN THỊ KẾT QUẢ (Mặc định ẩn) -->
+        <div id="resultContainer" style="display: none; margin-top: 20px;">
             
-            <div class="card-box card-info">
-                <h3 class="section-heading"><span class="blue-line"></span>Thông tin thí sinh</h3>
+            <!-- KHỐI 2: THÔNG TIN THÍ SINH -->
+            <div class="card-box" style="margin-bottom: 20px;">
+                <h2 class="section-heading">
+                    <span class="blue-line"></span>Thông tin thí sinh
+                </h2>
                 <div class="info-grid">
                     <div class="info-block">
                         <span class="info-label">Họ và tên</span>
@@ -42,24 +52,36 @@
                         <span class="info-label">Phòng thi</span>
                         <span class="info-value" id="resPhongThi">-</span>
                     </div>
+                    <div class="info-block">
+                        <span class="info-label">Số định danh / CCCD</span>
+                        <span class="info-value" id="resCCCD">-</span>
+                    </div>
+                    <div class="info-block">
+                        <span class="info-label">Trường & Lớp THCS cũ</span>
+                        <span class="info-value" id="resTruongCu">-</span>
+                    </div>
                 </div>
             </div>
 
-            <div class="card-box card-result">
-                <h3 class="section-heading"><span class="blue-line"></span>Kết quả</h3>
+            <!-- KHỐI 3: KẾT QUẢ CÁC MÔN THI -->
+            <div class="card-box">
+                <h2 class="section-heading">
+                    <span class="blue-line"></span>Kết quả chi tiết các môn
+                </h2>
                 <div class="table-responsive">
                     <table class="result-table">
                         <thead>
                             <tr>
-                                <th>Môn</th>
-                                <th>Thời gian thi</th>
+                                <th>Môn thi</th>
+                                <th>Ngày thi</th>
                                 <th>Địa điểm thi</th>
-                                <th>Bắt đầu làm bài</th>
-                                <th>Điểm</th>
+                                <th>Giờ phát đề</th>
+                                <th>Điểm số</th>
                             </tr>
                         </thead>
                         <tbody id="tableBodyScores">
-                            </tbody>
+                            <!-- Dữ liệu JS tự động đổ vào đây -->
+                        </tbody>
                     </table>
                 </div>
             </div>
@@ -67,19 +89,16 @@
         </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
-    
+    <!-- Nạp hệ thống Script theo đúng thứ tự logic -->
     <script src="js/data_local.js"></script>
-    
     <script src="js/api.js"></script>
-    
     <script src="js/animation.js"></script>
-    
+    <script src="js/loading.js"></script>
+    <script src="js/notification.js"></script>
     <script src="js/particles.js"></script>
-    
+    <!-- ĐÃ BỔ SUNG FILE CONFETTI CỦA CẬU VÀO ĐÂY -->
+    <script src="js/confetti.js"></script> 
     <script src="js/search.js"></script>
-    
     <script src="js/app.js"></script>
-
 </body>
 </html>

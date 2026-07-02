@@ -15,7 +15,7 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        // Bật trạng thái loading
+        // Bật trạng thái loading hiển thị tin nhắn chờ
         statusText.innerHTML = "✨ Đang truy xuất bảng điểm, đợi tớ xíu nha...";
         statusBox.style.display = 'block';
         if (resultBox) resultBox.style.display = 'none';
@@ -34,7 +34,17 @@ document.addEventListener('DOMContentLoaded', () => {
             const elemPhong = document.getElementById('resPhongThi') || document.getElementById('resPhogThi');
             if (elemPhong) elemPhong.innerText = info.PhongThi || "Phòng thi";
 
-            // Đổ dữ liệu vào Khối 3 (Bảng điểm 5 cột)
+            // --- ĐOẠN UPDATE MỚI: Đổ dữ liệu Số định danh và Trường/Lớp THCS cũ ---
+            document.getElementById('resCCCD').innerText = info.SoDinhDanh || "Chưa cập nhật";
+            
+            if (info.TenLopCu && info.TenTruongCu) {
+                document.getElementById('resTruongCu').innerText = `${info.TenLopCu} - ${info.TenTruongCu}`;
+            } else {
+                document.getElementById('resTruongCu').innerText = info.TenTruongCu || info.TenLopCu || "Chưa cập nhật";
+            }
+            // ------------------------------------------------------------------
+
+            // Đổ dữ liệu vào Khối 3 (Bảng điểm)
             let tableHTML = "";
             if (info.ListKetQuaMonThi && Array.isArray(info.ListKetQuaMonThi)) {
                 info.ListKetQuaMonThi.forEach(mon => {
@@ -60,7 +70,7 @@ document.addEventListener('DOMContentLoaded', () => {
             
             resultBox.style.display = 'block';
 
-            // Kích hoạt pháo hoa từ thư viện (nếu có)
+            // Kích hoạt pháo hoa từ thư viện canvas-confetti
             if (typeof confetti === 'function') {
                 confetti({ particleCount: 120, spread: 80, origin: { y: 0.6 } });
             }
